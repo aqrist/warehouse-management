@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
             WarehouseSeeder::class,
             CategorySeeder::class,
             SupplierSeeder::class,
-            // ProductSeeder::class,
+            ProductSeeder::class,
             UserSeeder::class,
-            // StockSeeder::class,
-            // StockMovementSeeder::class,
+            StockSeeder::class,
+            StockMovementSeeder::class,
         ]);
     }
 }
