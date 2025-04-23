@@ -27,9 +27,9 @@ class SupplierController extends Controller
         $suppliers = Supplier::query();
 
         return DataTables::of($suppliers)
-            // ->addColumn('product_count', function ($supplier) {
-            //     return $supplier->products->count();
-            // })
+            ->addColumn('product_count', function ($supplier) {
+                return $supplier->products->count();
+            })
             ->addColumn('action', function ($supplier) {
                 $actions = '';
 

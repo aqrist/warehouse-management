@@ -24,7 +24,7 @@
                             <th>Telepon</th>
                             <th>Email</th>
                             <th>Contact Person</th>
-                            {{-- <th>Jumlah Produk</th> --}}
+                            <th>Jumlah Produk</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -68,12 +68,12 @@
                         data: 'contact_person',
                         name: 'contact_person'
                     },
-                    // {
-                    //     data: 'product_count',
-                    //     name: 'product_count',
-                    //     searchable: false,
-                    //     orderable: false
-                    // },
+                    {
+                        data: 'product_count',
+                        name: 'product_count',
+                        searchable: false,
+                        orderable: false
+                    },
                     {
                         data: 'is_active',
                         name: 'is_active',
