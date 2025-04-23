@@ -18,205 +18,205 @@ class ProductSeeder extends Seeder
     {
         $categories = Category::all();
         $suppliers = Supplier::all();
-        
-        // Elektronik
-        $elektronik = $categories->where('code', 'ELK')->first();
-        $elektronikSupplier = $suppliers->where('code', 'SUP-001')->first();
-        
-        $elektronikProducts = [
+
+        // Bahan Pokok
+        $bahanPokok = $categories->where('code', 'BPK')->first();
+        $bahanPokokSupplier = $suppliers->where('code', 'SUP-001')->first();
+
+        $bahanPokokProducts = [
             [
-                'name' => 'TV LED 32 inch',
-                'sku' => 'ELK001',
-                'description' => 'TV LED dengan ukuran 32 inch, resolusi HD',
-                'cost' => 1500000,
-                'price' => 2000000,
-                'unit' => 'unit',
+                'name' => 'Beras Pandan Wangi',
+                'sku' => 'BPK001',
+                'description' => 'Beras pandan wangi premium, kemasan 5kg',
+                'cost' => 65000,
+                'price' => 75000,
+                'unit' => 'karung',
             ],
             [
-                'name' => 'Kulkas 2 Pintu',
-                'sku' => 'ELK002',
-                'description' => 'Kulkas 2 pintu dengan kapasitas 200 liter',
-                'cost' => 2500000,
-                'price' => 3200000,
-                'unit' => 'unit',
+                'name' => 'Tepung Terigu',
+                'sku' => 'BPK002',
+                'description' => 'Tepung terigu protein sedang, kemasan 1kg',
+                'cost' => 12000,
+                'price' => 15000,
+                'unit' => 'kg',
             ],
             [
-                'name' => 'Mesin Cuci 7kg',
-                'sku' => 'ELK003',
-                'description' => 'Mesin cuci dengan kapasitas 7kg, 1 tabung',
-                'cost' => 1800000,
-                'price' => 2400000,
-                'unit' => 'unit',
-            ],
-        ];
-        
-        foreach ($elektronikProducts as $product) {
-            $newProduct = Product::create(array_merge($product, [
-                'category_id' => $elektronik->id,
-                'is_active' => true,
-            ]));
-            
-            $newProduct->suppliers()->attach($elektronikSupplier->id);
-        }
-        
-        // Pakaian
-        $pakaian = $categories->where('code', 'PKN')->first();
-        $pakaianSupplier = $suppliers->where('code', 'SUP-002')->first();
-        
-        $pakaianProducts = [
-            [
-                'name' => 'Kemeja Pria',
-                'sku' => 'PKN001',
-                'description' => 'Kemeja pria lengan panjang, bahan katun',
-                'cost' => 80000,
-                'price' => 150000,
-                'unit' => 'pcs',
-            ],
-            [
-                'name' => 'Celana Jeans',
-                'sku' => 'PKN002',
-                'description' => 'Celana jeans slim fit, bahan denim',
-                'cost' => 120000,
-                'price' => 200000,
-                'unit' => 'pcs',
-            ],
-            [
-                'name' => 'Dress Wanita',
-                'sku' => 'PKN003',
-                'description' => 'Dress wanita casual, bahan rayon',
-                'cost' => 100000,
-                'price' => 180000,
-                'unit' => 'pcs',
+                'name' => 'Minyak Goreng',
+                'sku' => 'BPK003',
+                'description' => 'Minyak goreng kelapa sawit, kemasan 5 liter',
+                'cost' => 70000,
+                'price' => 85000,
+                'unit' => 'jerigen',
             ],
         ];
-        
-        foreach ($pakaianProducts as $product) {
+
+        foreach ($bahanPokokProducts as $product) {
             $newProduct = Product::create(array_merge($product, [
-                'category_id' => $pakaian->id,
+                'category_id' => $bahanPokok->id,
                 'is_active' => true,
             ]));
-            
-            $newProduct->suppliers()->attach($pakaianSupplier->id);
+
+            $newProduct->suppliers()->attach($bahanPokokSupplier->id);
         }
-        
-        // Makanan
-        $makanan = $categories->where('code', 'MKN')->first();
-        $makananSupplier = $suppliers->where('code', 'SUP-003')->first();
-        
-        $makananProducts = [
+
+        // Bumbu Dapur
+        $bumbu = $categories->where('code', 'BMB')->first();
+        $bumbuSupplier = $suppliers->where('code', 'SUP-002')->first();
+
+        $bumbuProducts = [
             [
-                'name' => 'Biskuit Coklat',
-                'sku' => 'MKN001',
-                'description' => 'Biskuit dengan rasa coklat, isi 10 pcs',
-                'cost' => 5000,
-                'price' => 8000,
+                'name' => 'Garam Dapur',
+                'sku' => 'BMB001',
+                'description' => 'Garam dapur beryodium, kemasan 1kg',
+                'cost' => 10000,
+                'price' => 12000,
+                'unit' => 'kg',
+            ],
+            [
+                'name' => 'Gula Pasir',
+                'sku' => 'BMB002',
+                'description' => 'Gula pasir putih, kemasan 1kg',
+                'cost' => 14000,
+                'price' => 16000,
+                'unit' => 'kg',
+            ],
+            [
+                'name' => 'Bumbu Rendang',
+                'sku' => 'BMB003',
+                'description' => 'Bumbu rendang siap pakai, kemasan 250gr',
+                'cost' => 25000,
+                'price' => 30000,
                 'unit' => 'pack',
             ],
+        ];
+
+        foreach ($bumbuProducts as $product) {
+            $newProduct = Product::create(array_merge($product, [
+                'category_id' => $bumbu->id,
+                'is_active' => true,
+            ]));
+
+            $newProduct->suppliers()->attach($bumbuSupplier->id);
+        }
+
+        // Sayuran
+        $sayuran = $categories->where('code', 'SYR')->first();
+        $sayuranSupplier = $suppliers->where('code', 'SUP-003')->first();
+
+        $sayuranProducts = [
             [
-                'name' => 'Minuman Soda',
-                'sku' => 'MKN002',
-                'description' => 'Minuman bersoda, kemasan kaleng 330ml',
+                'name' => 'Kangkung',
+                'sku' => 'SYR001',
+                'description' => 'Kangkung segar, per ikat',
                 'cost' => 3000,
                 'price' => 5000,
-                'unit' => 'can',
+                'unit' => 'ikat',
             ],
             [
-                'name' => 'Mie Instan',
-                'sku' => 'MKN003',
-                'description' => 'Mie instan rasa ayam, isi 5 pcs',
-                'cost' => 10000,
-                'price' => 15000,
-                'unit' => 'pack',
-            ],
-        ];
-        
-        foreach ($makananProducts as $product) {
-            $newProduct = Product::create(array_merge($product, [
-                'category_id' => $makanan->id,
-                'is_active' => true,
-            ]));
-            
-            $newProduct->suppliers()->attach($makananSupplier->id);
-        }
-        
-        // Perabotan
-        $perabotan = $categories->where('code', 'PRB')->first();
-        $perabotanSupplier = $suppliers->where('code', 'SUP-004')->first();
-        
-        $perabotanProducts = [
-            [
-                'name' => 'Meja Makan',
-                'sku' => 'PRB001',
-                'description' => 'Meja makan kayu jati, ukuran 120x80cm',
-                'cost' => 1500000,
-                'price' => 2300000,
-                'unit' => 'unit',
+                'name' => 'Bayam',
+                'sku' => 'SYR002',
+                'description' => 'Bayam segar, per ikat',
+                'cost' => 3000,
+                'price' => 5000,
+                'unit' => 'ikat',
             ],
             [
-                'name' => 'Kursi Kantor',
-                'sku' => 'PRB002',
-                'description' => 'Kursi kantor dengan roda, bahan mesh',
-                'cost' => 600000,
-                'price' => 900000,
-                'unit' => 'unit',
-            ],
-            [
-                'name' => 'Lemari Pakaian',
-                'sku' => 'PRB003',
-                'description' => 'Lemari pakaian 2 pintu, bahan particle board',
-                'cost' => 1200000,
-                'price' => 1800000,
-                'unit' => 'unit',
+                'name' => 'Kol/Kubis',
+                'sku' => 'SYR003',
+                'description' => 'Kol/kubis segar, per kg',
+                'cost' => 8000,
+                'price' => 12000,
+                'unit' => 'kg',
             ],
         ];
-        
-        foreach ($perabotanProducts as $product) {
+
+        foreach ($sayuranProducts as $product) {
             $newProduct = Product::create(array_merge($product, [
-                'category_id' => $perabotan->id,
+                'category_id' => $sayuran->id,
                 'is_active' => true,
             ]));
-            
-            $newProduct->suppliers()->attach($perabotanSupplier->id);
+
+            $newProduct->suppliers()->attach($sayuranSupplier->id);
         }
-        
-        // Kesehatan
-        $kesehatan = $categories->where('code', 'KSH')->first();
-        $kesehatanSupplier = $suppliers->where('code', 'SUP-005')->first();
-        
-        $kesehatanProducts = [
+
+        // Daging & Seafood
+        $daging = $categories->where('code', 'DGS')->first();
+        $dagingSupplier = $suppliers->where('code', 'SUP-004')->first();
+
+        $dagingProducts = [
             [
-                'name' => 'Vitamin C',
-                'sku' => 'KSH001',
-                'description' => 'Vitamin C 1000mg, isi 30 tablet',
-                'cost' => 30000,
-                'price' => 45000,
-                'unit' => 'bottle',
+                'name' => 'Ayam Potong',
+                'sku' => 'DGS001',
+                'description' => 'Ayam potong segar, per ekor',
+                'cost' => 45000,
+                'price' => 55000,
+                'unit' => 'ekor',
             ],
             [
-                'name' => 'Masker Medis',
-                'sku' => 'KSH002',
-                'description' => 'Masker medis 3 ply, isi 50 pcs',
-                'cost' => 25000,
-                'price' => 40000,
+                'name' => 'Daging Sapi',
+                'sku' => 'DGS002',
+                'description' => 'Daging sapi segar, per kg',
+                'cost' => 120000,
+                'price' => 140000,
+                'unit' => 'kg',
+            ],
+            [
+                'name' => 'Udang Segar',
+                'sku' => 'DGS003',
+                'description' => 'Udang segar ukuran sedang, per kg',
+                'cost' => 80000,
+                'price' => 95000,
+                'unit' => 'kg',
+            ],
+        ];
+
+        foreach ($dagingProducts as $product) {
+            $newProduct = Product::create(array_merge($product, [
+                'category_id' => $daging->id,
+                'is_active' => true,
+            ]));
+
+            $newProduct->suppliers()->attach($dagingSupplier->id);
+        }
+
+        // Minuman
+        $minuman = $categories->where('code', 'MNM')->first();
+        $minumanSupplier = $suppliers->where('code', 'SUP-005')->first();
+
+        $minumanProducts = [
+            [
+                'name' => 'Teh Celup',
+                'sku' => 'MNM001',
+                'description' => 'Teh celup, isi 25 sachet',
+                'cost' => 8000,
+                'price' => 12000,
                 'unit' => 'box',
             ],
             [
-                'name' => 'Hand Sanitizer',
-                'sku' => 'KSH003',
-                'description' => 'Hand sanitizer 500ml, kandungan alkohol 70%',
-                'cost' => 20000,
+                'name' => 'Kopi Bubuk',
+                'sku' => 'MNM002',
+                'description' => 'Kopi bubuk robusta, kemasan 250gr',
+                'cost' => 15000,
+                'price' => 20000,
+                'unit' => 'pack',
+            ],
+            [
+                'name' => 'Sirup Gula Aren',
+                'sku' => 'MNM003',
+                'description' => 'Sirup gula aren, botol 500ml',
+                'cost' => 25000,
                 'price' => 35000,
-                'unit' => 'bottle',
+                'unit' => 'botol',
             ],
         ];
-        
-        foreach ($kesehatanProducts as $product) {
+
+        foreach ($minumanProducts as $product) {
             $newProduct = Product::create(array_merge($product, [
-                'category_id' => $kesehatan->id,
+                'category_id' => $minuman->id,
                 'is_active' => true,
             ]));
-            
-            $newProduct->suppliers()->attach($kesehatanSupplier->id);
+
+            $newProduct->suppliers()->attach($minumanSupplier->id);
         }
     }
 }

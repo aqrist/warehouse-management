@@ -16,37 +16,37 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Elektronik',
-                'code' => 'ELK',
-                'description' => 'Produk elektronik seperti TV, radio, dll',
+                'name' => 'Bahan Pokok',
+                'code' => 'BPK',
+                'description' => 'Bahan pokok seperti beras, tepung, minyak, dll',
                 'is_active' => true,
             ],
             [
-                'name' => 'Pakaian',
-                'code' => 'PKN',
-                'description' => 'Produk pakaian seperti baju, celana, dll',
+                'name' => 'Bumbu Dapur',
+                'code' => 'BMB',
+                'description' => 'Bumbu dapur seperti garam, gula, merica, dll',
                 'is_active' => true,
             ],
             [
-                'name' => 'Makanan',
-                'code' => 'MKN',
-                'description' => 'Produk makanan seperti snack, minuman, dll',
+                'name' => 'Sayuran',
+                'code' => 'SYR',
+                'description' => 'Sayuran segar seperti bayam, kangkung, wortel, dll',
                 'is_active' => true,
             ],
             [
-                'name' => 'Perabotan',
-                'code' => 'PRB',
-                'description' => 'Produk perabotan seperti meja, kursi, dll',
+                'name' => 'Daging & Seafood',
+                'code' => 'DGS',
+                'description' => 'Daging dan seafood seperti ayam, sapi, ikan, udang, dll',
                 'is_active' => true,
             ],
             [
-                'name' => 'Kesehatan',
-                'code' => 'KSH',
-                'description' => 'Produk kesehatan seperti obat, vitamin, dll',
+                'name' => 'Minuman',
+                'code' => 'MNM',
+                'description' => 'Bahan minuman seperti teh, kopi, sirup, dll',
                 'is_active' => true,
             ],
         ];
-        
+
         foreach ($categories as $category) {
             Category::create($category);
         }
