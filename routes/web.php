@@ -87,6 +87,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Stock Adjustment
     Route::middleware(['permission:adjust stocks'])->group(function () {
+        Route::get('/stock-adjustments/get-products-by-warehouse', [StockAdjustmentController::class, 'getProductsByWarehouse'])
+            ->name('stock-adjustments.get-products-by-warehouse');
         Route::get('/stock-adjustments/data', [StockAdjustmentController::class, 'getData'])->name('stock-adjustments.data');
         Route::resource('stock-adjustments', StockAdjustmentController::class);
     });

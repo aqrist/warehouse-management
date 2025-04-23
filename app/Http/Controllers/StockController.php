@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use App\Models\Warehouse;
-use Illuminate\Http\Request;
+use App\Models\Product;
 use App\Models\StockMovement;
-use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Facades\DataTables;
+use App\Helpers\WarehouseHelper;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class StockController extends Controller
 {
@@ -21,7 +22,9 @@ class StockController extends Controller
 
     public function index()
     {
-        return view('stocks.index');
+        $warehouses = WarehouseHelper::getAccessibleWarehouses();
+
+        return view('stocks.index', compact('warehouses'));
     }
 
     public function getData(Request $request)
@@ -45,11 +48,25 @@ class StockController extends Controller
             $stocks->where('warehouse_id', $request->warehouse_id);
         }
 
+        if ($request->has('product_id') && $request->product_id) {
+            $stocks->where('product_id', $request->product_id);
+        }
+
         if ($request->has('product_name') && $request->product_name) {
             $stocks->whereHas('product', function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->product_name . '%')
                     ->orWhere('sku', 'like', '%' . $request->product_name . '%');
             });
+        }
+
+        if ($request->has('status') && $request->status) {
+            if ($request->status == 'out_of_stock') {
+                $stocks->where('quantity', '<=', 0);
+            } elseif ($request->status == 'low_stock') {
+                $stocks->whereRaw('quantity > 0 AND quantity <= min_quantity');
+            } elseif ($request->status == 'in_stock') {
+                $stocks->whereRaw('quantity > min_quantity');
+            }
         }
 
         return DataTables::of($stocks)
@@ -73,6 +90,12 @@ class StockController extends Controller
                 } else {
                     return '<span class="badge bg-success">Tersedia</span>';
                 }
+            })
+            ->editColumn('quantity', function ($stock) {
+                return number_format($stock->quantity, 2) . ' ' . $stock->product->unit;
+            })
+            ->editColumn('min_quantity', function ($stock) {
+                return number_format($stock->min_quantity, 2) . ' ' . $stock->product->unit;
             })
             ->addColumn('action', function ($stock) {
                 $actions = '';
@@ -105,6 +128,7 @@ class StockController extends Controller
         // Get stock movements history
         $movements = StockMovement::where('warehouse_id', $stock->warehouse_id)
             ->where('product_id', $stock->product_id)
+            ->with(['user'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -127,7 +151,7 @@ class StockController extends Controller
         $this->checkStockAccess($stock);
 
         $validator = Validator::make($request->all(), [
-            'quantity' => 'required|numeric',
+            'quantity' => 'required|numeric|min:0.01',
             'type' => 'required|in:addition,subtraction',
             'notes' => 'required|string',
         ]);
@@ -158,7 +182,7 @@ class StockController extends Controller
         }
 
         // Begin transaction
-        DB::beginTransaction();
+        \DB::beginTransaction();
 
         try {
             // Update stock
@@ -175,12 +199,12 @@ class StockController extends Controller
                 'notes' => $request->notes,
             ]);
 
-            DB::commit();
+            \DB::commit();
 
             return redirect()->route('stocks.show', $stock->id)
                 ->with('success', 'Penyesuaian stok berhasil dilakukan');
         } catch (\Exception $e) {
-            DB::rollBack();
+            \DB::rollBack();
 
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
@@ -242,7 +266,7 @@ class StockController extends Controller
         $targetWarehouseId = $request->target_warehouse_id;
 
         // Begin transaction
-        DB::beginTransaction();
+        \DB::beginTransaction();
 
         try {
             // Reduce stock at source warehouse
@@ -284,12 +308,12 @@ class StockController extends Controller
                 'notes' => "Transfer masuk dari gudang #{$stock->warehouse_id}: " . $request->notes,
             ]);
 
-            DB::commit();
+            \DB::commit();
 
             return redirect()->route('stocks.show', $stock->id)
                 ->with('success', 'Transfer stok berhasil dilakukan');
         } catch (\Exception $e) {
-            DB::rollBack();
+            \DB::rollBack();
 
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
